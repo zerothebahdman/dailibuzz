@@ -1,3 +1,4 @@
+// require('./scrapper/punch/news');
 const express = require('express');
 
 const app = express();
