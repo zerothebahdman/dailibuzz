@@ -1,10 +1,10 @@
 const cron = require('node-cron');
 const PunchClass = require('../class/PunchClass');
 
-cron.schedule('* * * * * *', () => {
+cron.schedule('* * * * *', async () => {
   const news = new PunchClass(
     'https://punchng.com/topics/news/',
-    'news',
+    'News',
     'punchng'
   );
 

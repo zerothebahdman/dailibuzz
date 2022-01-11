@@ -1,6 +1,6 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
-const { Article } = require('../../../models');
+const { Category, Article } = require('../../../models');
 
 class PunchClass {
   constructor(url, category, source) {
@@ -57,13 +57,17 @@ class PunchClass {
   }
 
   async exportResults(results) {
+    const getCategory = await Category.findOne({
+      where: { name: this.category },
+    });
     // eslint-disable-next-line no-restricted-syntax
     for (const i of results) {
-      Article.create({
+      // eslint-disable-next-line no-await-in-loop
+      await Article.create({
         name: i.articleTitle,
         url: i.articleUrl,
         image: i.articleImage,
-        category: this.category,
+        categoryId: getCategory.id,
         source: this.source,
       });
       console.log(`Completly saved to database`);
