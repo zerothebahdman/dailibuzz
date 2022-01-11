@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       return {
         ...this.get(),
         id: undefined,
+        categoryId: undefined,
       };
     }
   }
