@@ -19,7 +19,7 @@ module.exports = {
       image: DataTypes.STRING,
       url: DataTypes.STRING,
       source: DataTypes.STRING,
-      categoryId: {
+      category_id: {
         type: DataTypes.INTEGER,
         references: {
           model: 'categories', // Name of the created table
@@ -28,11 +28,11 @@ module.exports = {
           onDelete: 'CASCADE',
         },
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: DataTypes.DATE,
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: DataTypes.DATE,
       },

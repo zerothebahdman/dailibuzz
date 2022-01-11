@@ -14,10 +14,14 @@ module.exports = (sequelize, DataTypes) => {
   user.init(
     {
       name: DataTypes.STRING,
+      createdAt: { type: DataTypes.DATE },
+      updatedAt: { type: DataTypes.DATE },
     },
     {
       sequelize,
       modelName: 'user',
+      underscored: true,
+      tableName: 'users',
     }
   );
   return user;

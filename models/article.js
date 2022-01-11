@@ -37,11 +37,14 @@ module.exports = (sequelize, DataTypes) => {
         references: 'category',
         refrencesKey: 'id',
       },
+      createdAt: { type: DataTypes.DATE },
+      updatedAt: { type: DataTypes.DATE },
     },
     {
       sequelize,
       modelName: 'Article',
       tableName: 'articles',
+      underscored: true,
     }
   );
   return article;

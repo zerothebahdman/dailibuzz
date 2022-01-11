@@ -15,16 +15,26 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: 'cascade',
       });
     }
+
+    toJSON() {
+      return {
+        ...this.get(),
+        id: undefined,
+      };
+    }
   }
   category.init(
     {
       uuid: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4 },
       name: DataTypes.STRING,
+      createdAt: { type: DataTypes.DATE },
+      updatedAt: { type: DataTypes.DATE },
     },
     {
       sequelize,
       modelName: 'Category',
       tabelName: 'categories',
+      underscored: true,
     }
   );
   return category;
