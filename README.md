@@ -22,7 +22,7 @@ _Begin_
 - Duplicate the file named ".env.example", rename the new copy to ".env".
 - Perform migrations with `sequelize-cli db:migrate`
 - To start the server, run `npm start`
-- You can start making requests via your API Tester by visiting http://localhost:8000
+- You can start making requests via your API Tester by visiting http://localhost:8080
 
 _Note:_
 To install packages, use `npm i <package name>`.
