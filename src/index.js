@@ -1,4 +1,5 @@
 require('./scrapper/punch/news');
+require('./scrapper/punch/entertainment');
 const express = require('express');
 const morgan = require('morgan');
 const AppError = require('./class/AppError');
