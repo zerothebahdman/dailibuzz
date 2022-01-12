@@ -15,7 +15,12 @@ exports.getArticle = async (req, res, next) => {
       },
     });
 
-    redis.set('articles', JSON.stringify(article), 'ex', 6 * 60 * 60 * 100);
+    redis.set(
+      'articles',
+      JSON.stringify(article),
+      'ex',
+      6 * 60 * 60 * 100
+    ); /** Expires after 6 hours*/
     res
       .status(200)
       .json({ status: 'success', numberOfData: article.length, article });
