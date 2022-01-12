@@ -5,7 +5,7 @@ const { sequelize } = require('./models');
 dotenv.config();
 const port = process.env.PORT;
 app.listen(port, async () => {
-  console.log(`App is running on port ${port}`);
+  console.log(`🚀 is running on port ${port}`);
   await sequelize.authenticate();
   console.log('Database connected successfully');
 });
