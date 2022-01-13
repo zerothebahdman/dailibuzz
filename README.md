@@ -1,6 +1,6 @@
-# Backend for BuzzGest
+# DailiBuzz for BuzzGest
 
-BuzzGest is a one stop web application that pragamatically collects and organize data from news outlets that have undocumented API and serve's it to user's based on what they like the most.
+DailiBuzz is a one stop web application that pragamatically collects and organize data from news outlets that have undocumented API and serve's it to user's based on what they like the most.
 
 ## How to use
 
