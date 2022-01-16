@@ -2,7 +2,7 @@
   "development": {
     "username": "root",
     "password": "divino@rust",
-    "database": "buzzgest",
+    "database": "dailibuzz",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
