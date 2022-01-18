@@ -8,6 +8,7 @@ module.exports = {
         type: DataTypes.INTEGER,
       },
       uuid: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4 },
+      nanoid: DataTypes.STRING,
       name: {
         type: DataTypes.STRING,
       },

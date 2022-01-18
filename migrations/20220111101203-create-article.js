@@ -8,6 +8,7 @@ module.exports = {
         type: DataTypes.INTEGER,
       },
       uuid: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4 },
+      nanoid: DataTypes.STRING,
       name: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -33,6 +34,10 @@ module.exports = {
         type: DataTypes.DATE,
       },
       updated_at: {
+        allowNull: false,
+        type: DataTypes.DATE,
+      },
+      expires_at: {
         allowNull: false,
         type: DataTypes.DATE,
       },
