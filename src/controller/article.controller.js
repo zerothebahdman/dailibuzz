@@ -1,4 +1,5 @@
 const Redis = require('ioredis');
+const { Op } = require('sequelize');
 
 const { Article, Category } = require('../../models');
 const AppError = require('../class/AppError');
@@ -8,7 +9,6 @@ const redis = new Redis();
 
 exports.getArticle = async (req, res, next) => {
   try {
-    // const {} = req.params;
     const article = await Article.findAll({
       include: {
         model: Category,
@@ -33,12 +33,15 @@ exports.getArticle = async (req, res, next) => {
 
 exports.sortArticle = async (req, res, next) => {
   try {
-    const { source, category } = req.query;
+    const queryObj = { ...req.query };
+    const excludeKeyWords = ['sort', 'page', 'limit', 'fields'];
+    excludeKeyWords.forEach((element) => delete queryObj[element]);
+    log.info(queryObj);
     const articleCategory = await Category.findOne({
-      where: { name: category },
+      where: { name: queryObj.category },
     });
     const article = await Article.findAll({
-      where: { source, categoryId: articleCategory.id },
+      where: { source: queryObj.source, categoryId: articleCategory.id },
     });
     res
       .status(200)
@@ -52,4 +55,11 @@ exports.sortArticle = async (req, res, next) => {
       )
     );
   }
+};
+
+exports.deleteArticle = () => {
+  const article = Article.findAll({
+    where: { expiresAt: { [Op.gt]: Date.now() } },
+  });
+  while (article) {}
 };

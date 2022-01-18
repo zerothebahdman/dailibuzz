@@ -27,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       uuid: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4 },
       name: DataTypes.STRING,
+      nanoid: DataTypes.STRING,
       createdAt: { type: DataTypes.DATE },
       updatedAt: { type: DataTypes.DATE },
     },

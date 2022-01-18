@@ -30,6 +30,7 @@ module.exports = (sequelize, DataTypes) => {
           notEmpty: { msg: "Opps!. Name can't be empty." },
         },
       },
+      nanoid: DataTypes.STRING,
       image: DataTypes.STRING,
       url: DataTypes.STRING,
       source: DataTypes.STRING,
@@ -40,6 +41,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       createdAt: { type: DataTypes.DATE },
       updatedAt: { type: DataTypes.DATE },
+      expiresAt: { type: DataTypes.DATE },
     },
     {
       sequelize,
