@@ -3,8 +3,10 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { writeFile } = require('fs');
+const { nanoid } = require('nanoid');
+
 const { Category, Article } = require('../../../models');
-const logger = require('../../utils/logger');
+const log = require('../../utils/logger');
 
 /** 
  * Delete all data from article table
@@ -22,11 +24,11 @@ class PunchClass {
   async fetchPage(url, n) {
     try {
       const result = await axios.get(url);
-      // logger.info(result.data);
+      // log.info(result.data);
       return result.data;
     } catch (err) {
       if (n === 0) throw new Error(err.message);
-      logger.info(
+      log.info(
         'fetchPage(): Waiting For 3 seconds before retrying the request.'
       );
     }
@@ -50,7 +52,7 @@ class PunchClass {
             .find('.entry-item-main > h3 > a')
             .attr('href');
 
-          logger.info(`Created Promise for article: ${articleTitle}`);
+          log.info(`Created Promise for article: ${articleTitle}`);
 
           return {
             articleImage,
@@ -66,48 +68,59 @@ class PunchClass {
     }
   }
 
-  async getIndividualArticle() {
-    try {
-      const article = await Article.findAll();
-      logger.info(article);
-      for (const i of article) {
-        logger.info(i);
-        // eslint-disable-next-line no-await-in-loop
-        const page = await this.fetchPage(i.url, 6);
-        // eslint-disable-next-line no-unreachable-loop
-        for (const a of page) {
-          logger.info(`---------------`);
-          logger.info(a);
-          logger.info(`---------------`);
-          const $ = cheerio.load(a);
-          const getEntireArticle = $('.site-main > article')
-            .map(async (index, element) => {
-              const getArticleImage = $(element)
-                .find('.entry-thumbnail-wrapper > picture > img')
-                .attr('src');
-              const getArticleBody = $(element)
-                .find('.entry-main > p')
-                .text()
-                .trim();
+  // async getIndividualArticle() {
+  //   try {
+  //     const article = await Article.findAll();
+  //     log.info(article);
+  //     for (let i = 0; i < article.length; i++) {
+  //       const page = article[i];
+  //       const x = page.url;
+  //       log.info(x);
+  //       // for (let a = 0; a < x.length; a++) {
+  //       //   const t = x[a];
+  //       //   log.info(t);
+  //       //   // const $ = cheerio.load(t);
+  //       //   // log.info($);
+  //       // }
+  //     }
+  //     // for (const i of article) {
+  //     //   log.info(i);
+  //     //   // eslint-disable-next-line no-await-in-loop
+  //     //   const page = await this.fetchPage(i.url, 6);
+  //     //   // eslint-disable-next-line no-unreachable-loop
+  //     //   for (const a of page) {
+  //     //     log.info(`---------------`);
+  //     //     log.info(a);
+  //     //     log.info(`---------------`);
+  //     //     const $ = cheerio.load(a);
+  //     //     const getEntireArticle = $('.site-main > article')
+  //     //       .map(async (index, element) => {
+  //     //         const getArticleImage = $(element)
+  //     //           .find('.entry-thumbnail-wrapper > picture > img')
+  //     //           .attr('src');
+  //     //         const getArticleBody = $(element)
+  //     //           .find('.entry-main > p')
+  //     //           .text()
+  //     //           .trim();
 
-              logger.info(
-                `Created Promise for individual article: ${getArticleImage}`
-              );
-              return { getArticleImage, getArticleBody };
-            })
-            .get();
-          return Promise.all(getEntireArticle);
-        }
-      }
-    } catch (err) {
-      throw new Error(err.message);
-    }
-  }
+  //     //         log.info(
+  //     //           `Created Promise for individual article: ${getArticleImage}`
+  //     //         );
+  //     //         return { getArticleImage, getArticleBody };
+  //     //       })
+  //     //       .get();
+  //     //     return Promise.all(getEntireArticle);
+  //     //   }
+  //     // }
+  //   } catch (err) {
+  //     throw new Error(err.message);
+  //   }
+  // }
 
   exportEntireArticleResults(results, outputFile) {
     writeFile(outputFile, JSON.stringify(results, null, 4), (err) => {
-      if (err) logger.info(err);
-      logger.info(`${results.length} results exported to ${outputFile}`);
+      if (err) log.info(err);
+      log.info(`${results.length} results exported to ${outputFile}`);
     });
   }
 
@@ -121,11 +134,13 @@ class PunchClass {
       await Article.create({
         name: i.articleTitle,
         url: i.articleUrl,
+        nanoid: nanoid(),
         image: i.articleImage,
         categoryId: getCategory.id,
         source: this.source,
+        expiresAt: Date.now() + 7 * 24 * 60 * 60 * 1000,
       });
-      logger.info(`Completly saved to database`);
+      log.info(`Completly saved to database`);
     }
   }
 }
