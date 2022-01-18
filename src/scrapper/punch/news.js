@@ -2,8 +2,8 @@ const cron = require('node-cron');
 const PunchClass = require('../class/PunchClass');
 const logger = require('../../utils/logger');
 
-cron.schedule('00 30,00 8,13 * * *', async () => {
-  /** thus cron will run every day by 8:30AM and 1:30PM */
+cron.schedule('00 00,00 8,12 * * *', async () => {
+  /**cron will run every day by 8:30AM and 12:00PM */
   const news = new PunchClass(
     'https://punchng.com/topics/news/',
     'News',

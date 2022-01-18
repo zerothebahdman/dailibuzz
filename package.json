@@ -1,13 +1,13 @@
 {
   "name": "dailibuzz",
   "version": "1.0.0",
-  "description": "",
+  "description": "DailiBuzz is a one stop web application that pragamatically collects and organize data from news outlets that have undocumented API and serve's it to user's based on what they like the most.",
   "main": "src/index.js",
   "scripts": {
     "start": "nodemon server.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Okoro Divinewill Eze",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.24.0",
@@ -17,6 +17,7 @@
     "ioredis": "^4.28.3",
     "morgan": "^1.10.0",
     "mysql2": "^2.3.3",
+    "nanoid": "^3.2.0",
     "node-cron": "^3.0.0",
     "pino": "^7.6.3",
     "pino-pretty": "^7.3.0",
