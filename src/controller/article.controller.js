@@ -11,6 +11,7 @@ const redis = new Redis();
 exports.getArticle = async (req, res, next) => {
   try {
     const article = await Article.findAll({
+      order: [['createdAt', 'DESC']],
       include: {
         model: Category,
         as: 'category',
