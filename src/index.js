@@ -1,6 +1,7 @@
 require('./scrapper/punch/news');
 require('./scrapper/punch/entertainment');
 require('./scrapper/punch/business');
+require('./scrapper/punch/sports');
 const express = require('express');
 const morgan = require('morgan');
 const responseTime = require('response-time');
