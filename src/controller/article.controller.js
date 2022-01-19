@@ -1,5 +1,6 @@
 const Redis = require('ioredis');
 const { Op } = require('sequelize');
+const cron = require('node-cron');
 
 const { Article, Category } = require('../../models');
 const AppError = require('../class/AppError');
@@ -57,9 +58,18 @@ exports.sortArticle = async (req, res, next) => {
   }
 };
 
-exports.deleteArticle = () => {
-  const article = Article.findAll({
-    where: { expiresAt: { [Op.gt]: Date.now() } },
+(() => {
+  cron.schedule('0 * * * *', async () => {
+    const articles = await Article.findAll({
+      where: { expiresAt: { [Op.lt]: Date.now() } },
+    });
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const article of articles) {
+      log.info(article.nanoid);
+      // eslint-disable-next-line no-await-in-loop
+      await Article.destroy({ where: { nanoid: article.nanoid } });
+      log.info(`Deleted ${article.nanoid}`);
+    }
   });
-  while (article) {}
-};
+})();
