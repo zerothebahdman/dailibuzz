@@ -3,6 +3,7 @@ require('./scrapper/tech-crunch/tech-crunch.article');
 const express = require('express');
 const morgan = require('morgan');
 const responseTime = require('response-time');
+const rateLimit = require('express-rate-limit');
 
 const AppError = require('./class/AppError');
 const ErrorHandler = require('./middleware/ErrorHandler');
@@ -12,6 +13,15 @@ const categoryRouter = require('./routes/category.router');
 const app = express();
 app.use(express.json());
 app.use(responseTime());
+
+const rateLimiter = rateLimit({
+  max: 100, //max amount of requests per 30min
+  windowMs: 30 * 60 * 1000, // 30Mins in milliseconds
+  headers: true,
+  message: `Opps! You've exceeded 80 request in 30 mins limit`,
+});
+
+app.use('/api', rateLimiter);
 
 if (process.env.NODE_ENV !== 'production') {
   app.use(morgan('dev'));
