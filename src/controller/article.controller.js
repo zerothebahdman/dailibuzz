@@ -39,15 +39,37 @@ exports.sortArticle = async (req, res, next) => {
     const excludeKeyWords = ['sort', 'page', 'limit', 'fields'];
     excludeKeyWords.forEach((element) => delete queryObj[element]);
     log.info(queryObj);
-    const articleCategory = await Category.findOne({
-      where: { name: queryObj.category },
-    });
-    const article = await Article.findAll({
-      where: { source: queryObj.source, categoryId: articleCategory.id },
-    });
-    res
-      .status(200)
-      .json({ status: 'success', dataReturned: article.length, article });
+    if (!queryObj.category) {
+      const article = await Article.findAll({
+        where: { source: queryObj.source },
+        attributes: ['name', 'nanoid', 'image', 'url', 'source'],
+        include: {
+          model: Category,
+          as: 'category',
+          attributes: ['uuid', 'name'],
+        },
+      });
+      res
+        .status(200)
+        .json({ status: 'success', dataReturned: article.length, article });
+    } else {
+      const articleCategory = await Category.findOne({
+        where: { name: queryObj.category },
+      });
+
+      const article = await Article.findAll({
+        where: { source: queryObj.source, categoryId: articleCategory.id },
+        attributes: ['name', 'nanoid', 'image', 'url', 'source'],
+        include: {
+          model: Category,
+          as: 'category',
+          attributes: ['uuid', 'name'],
+        },
+      });
+      res
+        .status(200)
+        .json({ status: 'success', dataReturned: article.length, article });
+    }
   } catch (err) {
     log.error(err.message);
     return next(
