@@ -15,8 +15,9 @@ exports.getArticle = async (req, res, next) => {
       include: {
         model: Category,
         as: 'category',
-        attributes: ['uuid', 'name'],
+        attributes: ['nanoid', 'name'],
       },
+      attributes: ['name', 'nanoid', 'image', 'url', 'source'],
     });
 
     redis.set(
