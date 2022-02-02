@@ -82,8 +82,8 @@ exports.sortArticle = async (req, res, next) => {
   }
 };
 
-(() => {
-  cron.schedule('0 * * * *', async () => {
+cron.schedule('0 * * * *', () => {
+  (async () => {
     const articles = await Article.findAll({
       where: { expiresAt: { [Op.lt]: Date.now() } },
     });
@@ -95,5 +95,5 @@ exports.sortArticle = async (req, res, next) => {
       await Article.destroy({ where: { nanoid: article.nanoid } });
       log.info(`Deleted ${article.nanoid}`);
     }
-  });
-})();
+  })();
+});
