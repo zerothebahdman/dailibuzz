@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Article {
+  id          Int       @id @default(autoincrement())
+  uuid        String?   @db.Char(36)
+  nanoid      String?   @db.VarChar(255)
+  name        String    @db.VarChar(255)
+  image       String?   @db.VarChar(255)
+  url         String?   @db.VarChar(255)
+  source      String?   @db.VarChar(255)
+  category_id Int?
+  created_at  DateTime  @default(now()) @db.DateTime(0)
+  updated_at  DateTime  @db.DateTime(0)
+  expires_at  DateTime  @updatedAt @db.DateTime(0)
+  Category    Category? @relation(fields: [category_id], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "articles_ibfk_1")
+
+  @@index([category_id], map: "category_id")
+  @@map("article")
+}
+
+model Category {
+  id         Int       @id @default(autoincrement())
+  uuid       String?   @db.Char(36)
+  nanoid     String?   @db.VarChar(255)
+  name       String?   @db.VarChar(255)
+  created_at DateTime  @default(now()) @db.DateTime(0)
+  updated_at DateTime  @db.DateTime(0)
+  article    Article[]
+
+  @@map("category")
+}
+
+model User {
+  id         Int      @id @default(autoincrement())
+  name       String?  @db.VarChar(255)
+  created_at DateTime @default(now()) @db.DateTime(0)
+  updated_at DateTime @db.DateTime(0)
+
+  @@map("user")
+}
