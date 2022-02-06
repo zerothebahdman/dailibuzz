@@ -2,18 +2,15 @@
   "name": "dailibuzz",
   "version": "1.0.0",
   "description": "DailiBuzz is a one stop web application that pragamatically collects and organize data from news outlets that have undocumented API and serve's it to user's based on what they like the most.",
-  "main": "src/index.ts",
+  "main": "src/app.ts",
   "scripts": {
-    "start": "ts-node-dev --respawn --transpile-only server.ts"
+    "start": "nodemon server.ts" 
   },
   "keywords": [],
   "author": "Okoro Divinewill Eze",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@prisma/client": "^3.9.1",
-    "@types/express": "^4.17.13",
-    "@types/morgan": "^1.9.3",
-    "@types/node": "^17.0.14",
     "axios": "^0.24.0",
     "cheerio": "^1.0.0-rc.10",
     "dotenv": "^10.0.0",
@@ -33,6 +30,12 @@
     "sequelize-cli-typescript": "^3.2.0-c"
   },
   "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/ioredis": "^4.28.7",
+    "@types/morgan": "^1.9.3",
+    "@types/node": "^17.0.14",
+    "@types/node-cron": "^3.0.1",
+    "@types/response-time": "^2.3.5",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.4",
