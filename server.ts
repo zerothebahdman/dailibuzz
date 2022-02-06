@@ -1,22 +1,23 @@
+import app from './src/app';
 import dotenv from 'dotenv';
-import app from './src/index';
-import log from './src/utils/logger';
-
 dotenv.config();
 
-process.on('uncaughtException', (err) => {
-  log.info(`Unhandled Exception💣! Shutdown In Progress...`);
-  log.info(err.name, err.message);
+import { Error } from './src/middleware/ErrorHandler';
+import log from './src/utils/logger';
+
+process.on('uncaughtException', (err: Error) => {
+  log.error(`Uncaught Exception💣! Shutdown In Progress...`);
+  log.error(err.name, err.message);
   process.exit(1);
 });
+log.info(process.env.PORT);
+const port: number | string = process.env.PORT || 3030;
 
-const port = process.env.PORT || 5050;
-
-const server = app.listen(port, async () => {
-  log.info(`Server 🚀 listening on port ${port}`);
+const server = app.listen(port, () => {
+  log.info(`Server 🚀 is running on port ${port}`);
 });
 
-process.on('unhandledRejection', (err: any) => {
+process.on('unhandledRejection', (err: Error) => {
   log.info(`Unhandled Rejection!!💣 Shutdown In Progress`);
   log.info(err.name, err.message);
   server.close(() => {
