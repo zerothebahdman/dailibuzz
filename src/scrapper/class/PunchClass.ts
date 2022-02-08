@@ -70,48 +70,53 @@ export default class PunchClass {
   }
 
   public async exportResults(results: Article[]) {
-    // const getCategory = await category.findFirst({
-    //   where: { name: this.category },
-    // });
-    // await article.create({ data: { name: 'test' } });
-    results.map(async (index, element: any) => {
-      const t = await article.create({
-        data: {
-          name: element.articleName,
-          url: element.articleUrl,
-          nanoid: nanoid(),
-          image: element.articleImage,
-          category_id: 1,
-          source: this.source,
-          // // @ts-ignore
-          // created_at: Date.now(),
-          // // @ts-ignore
-          // updated_at: Date.now(),
-          // // @ts-ignore
-          // expires_at: Date.now() + 7 * 24 * 60 * 60 * 1000,
-        },
+    try {
+      // const getCategory = await category.findFirst({
+      //   where: { name: this.category },
+      // });
+
+      results.map(async (index, element: any) => {
+        const t = await article.create({
+          data: {
+            name: element.articleName,
+            url: element.articleUrl,
+            nanoid: nanoid(),
+            image: element.articleImage,
+            category_id: 1,
+            source: this.source,
+            // // @ts-ignore
+            // created_at: Date.now(),
+            // // @ts-ignore
+            // updated_at: Date.now(),
+            // // @ts-ignore
+            // expires_at: Date.now() + 7 * 24 * 60 * 60 * 1000,
+          },
+        });
+        log.info(`Completly saved to database`);
+        return t;
       });
-      log.info(`Completly saved to database`);
-      return t;
-    });
-    // for (const i of results) {
-    //   await article.create({
-    //     data: {
-    //       name: i.articleTitle,
-    //       url: i.articleUrl,
-    //       nanoid: nanoid(),
-    //       image: i.articleImage,
-    //       category_id: 1,
-    //       source: this.source,
-    //       // @ts-ignore
-    //       created_at: Date.now(),
-    //       // @ts-ignore
-    //       updated_at: Date.now(),
-    //       // @ts-ignore
-    //       expires_at: Date.now() + 7 * 24 * 60 * 60 * 1000,
-    //     },
-    //   });
-    //   log.info(`Completly saved to database`);
-    // }
+
+      // for (const i of results) {
+      //   await article.create({
+      //     data: {
+      //       name: i.articleTitle,
+      //       url: i.articleUrl,
+      //       nanoid: nanoid(),
+      //       image: i.articleImage,
+      //       category_id: 1,
+      //       source: this.source,
+      //       // @ts-ignore
+      //       created_at: Date.now(),
+      //       // @ts-ignore
+      //       updated_at: Date.now(),
+      //       // @ts-ignore
+      //       expires_at: Date.now() + 7 * 24 * 60 * 60 * 1000,
+      //     },
+      //   });
+      //   log.info(`Completly saved to database`);
+      // }
+    } catch (err: any) {
+      log.error(err);
+    }
   }
 }
