@@ -1,5 +1,5 @@
-require('./scrapper/punch/punch.article');
-require('./scrapper/tech-crunch/tech-crunch.article');
+require('./scrapper/articles/punch.article');
+require('./scrapper/articles/tech-crunch.article');
 const express = require('express');
 const morgan = require('morgan');
 const responseTime = require('response-time');

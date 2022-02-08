@@ -1,5 +1,5 @@
 const cron = require('node-cron');
-const { punchArticle } = require('../utils/createArticle');
+const { punchArticle } = require('../services/create-article.service');
 
 cron.schedule('00 00,00 8,12 * * *', async () => {
   /**cron will run every day by 8:00AM and 12:00PM */
