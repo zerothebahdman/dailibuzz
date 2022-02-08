@@ -10,7 +10,7 @@ process.on('uncaughtException', (err: Error) => {
   log.error(err.name, err.message);
   process.exit(1);
 });
-log.info(process.env.PORT);
+
 const port: number | string = process.env.PORT || 3030;
 
 const server = app.listen(port, () => {

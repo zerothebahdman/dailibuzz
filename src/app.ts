@@ -1,4 +1,5 @@
-// require('./scrapper/punch/punch.article');
+import('./scrapper/punch/punch.article');
+// import * from './scrapper/punch/punch.article';
 // require('./scrapper/tech-crunch/tech-crunch.article');
 
 import express, { Application, NextFunction, Request, Response } from 'express';
@@ -9,6 +10,7 @@ import { rateLimit } from 'express-rate-limit';
 import AppError from './class/AppError';
 import ErrorHandler from './middleware/ErrorHandler';
 import articleRoute from './routes/article.route';
+import categoryRoute from './routes/category.route';
 
 const rateLimiter = rateLimit({
   max: 100, //max amount of requests per 30min
@@ -23,7 +25,7 @@ app.use(responseTime());
 app.use('/api', rateLimiter);
 
 app.use('/api/v1/article/', articleRoute);
-// app.use('/api/v1/category/', categoryRouter);
+app.use('/api/v1/category/', categoryRoute);
 
 if (process.env.NODE_ENV !== 'production') {
 }
