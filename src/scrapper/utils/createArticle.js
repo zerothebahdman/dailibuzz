@@ -2,7 +2,7 @@ const PunchClass = require('../class/PunchClass');
 const log = require('../../utils/logger');
 const TechCrunchClass = require('../class/TechCrunchClass');
 
-exports.punchArticles = (url, category, source) => {
+exports.punchArticle = (url, category, source) => {
   const article = new PunchClass(url, category, source);
   article
     .getArticle()

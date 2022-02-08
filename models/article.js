@@ -25,14 +25,15 @@ module.exports = (sequelize, DataTypes) => {
       name: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
         validate: {
           notNull: { msg: 'Opps!. Name must specified.' },
           notEmpty: { msg: "Opps!. Name can't be empty." },
         },
       },
       nanoid: DataTypes.STRING,
-      image: DataTypes.STRING,
-      url: DataTypes.STRING,
+      image: { type: DataTypes.STRING, unique: true },
+      url: { type: DataTypes.STRING, unique: true },
       source: DataTypes.STRING,
       categoryId: {
         type: DataTypes.INTEGER,
