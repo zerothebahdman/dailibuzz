@@ -6,7 +6,7 @@ const { writeFile } = require('fs');
 const { nanoid } = require('nanoid');
 
 const { Category, Article } = require('../../../models');
-const log = require('../../utils/logger');
+const log = require('../../utils/logger').default;
 
 /** 
  * Delete all data from article table
@@ -125,22 +125,29 @@ class PunchClass {
   }
 
   async exportResults(results) {
-    const getCategory = await Category.findOne({
-      where: { name: this.category },
-    });
-    // eslint-disable-next-line no-restricted-syntax
-    for (const i of results) {
-      // eslint-disable-next-line no-await-in-loop
-      await Article.create({
-        name: i.articleTitle,
-        url: i.articleUrl,
-        nanoid: nanoid(),
-        image: i.articleImage,
-        categoryId: getCategory.id,
-        source: this.source,
-        expiresAt: Date.now() + 7 * 24 * 60 * 60 * 1000,
+    try {
+      const getCategory = await Category.findOne({
+        where: { name: this.category },
       });
-      log.info(`Completly saved to database`);
+      // eslint-disable-next-line no-restricted-syntax
+      for (const i of results) {
+        // eslint-disable-next-line no-await-in-loop
+        await Article.create(
+          {
+            name: i.articleTitle,
+            url: i.articleUrl,
+            nanoid: nanoid(),
+            image: i.articleImage,
+            categoryId: getCategory.id,
+            source: this.source,
+            expiresAt: Date.now() + 7 * 24 * 60 * 60 * 1000,
+          },
+          { ignoreDuplicates: true, validate: true }
+        );
+        log.info(`Completly saved to database`);
+      }
+    } catch (err) {
+      log.error(err.message);
     }
   }
 }

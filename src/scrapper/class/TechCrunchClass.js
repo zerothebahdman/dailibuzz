@@ -3,7 +3,7 @@ const cheerio = require('cheerio');
 const { nanoid } = require('nanoid');
 const { Category, Article } = require('../../../models');
 
-const log = require('../../utils/logger');
+const log = require('../../utils/logger').default;
 
 class TechCrunchClass {
   constructor(url, category, source) {
