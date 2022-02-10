@@ -7,8 +7,9 @@ const rateLimit = require('express-rate-limit');
 
 const AppError = require('./class/AppError');
 const ErrorHandler = require('./middleware/ErrorHandler');
-const articleRouter = require('./routes/article.router');
-const categoryRouter = require('./routes/category.router');
+const articleRouter = require('./routes/article.route');
+const categoryRouter = require('./routes/category.route');
+const usersRouter = require('./routes/users.route');
 
 const app = express();
 app.use(express.json());
@@ -18,7 +19,7 @@ const rateLimiter = rateLimit({
   max: 100, //max amount of requests per 30min
   windowMs: 30 * 60 * 1000, // 30Mins in milliseconds
   headers: true,
-  message: `Opps! You've exceeded 80 request in 30 mins limit`,
+  message: `Opps! You've exceeded 100 request in 30 mins limit`,
 });
 
 app.use('/api', rateLimiter);
@@ -29,6 +30,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 app.use('/api/v1/article/', articleRouter);
 app.use('/api/v1/category/', categoryRouter);
+app.use('/api/v1/users', usersRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Cant find ${req.originalUrl} on the server.`, 404));

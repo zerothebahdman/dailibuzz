@@ -1,27 +1,54 @@
-'use strict';
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
+  up: async (queryInterface, DataTypes) => {
     await queryInterface.createTable('users', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
       },
-      name: {
-        type: Sequelize.STRING,
-      },
-      created_at: {
+      uuid: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4 },
+      name: DataTypes.STRING,
+      email: {
+        type: DataTypes.STRING,
         allowNull: false,
-        type: Sequelize.DATE,
+        unique: true,
+        validate: {
+          notEmpty: { msg: `Opps!, please specify an email address` },
+          isEmail: { msg: `Opps!, please enter a valid email address` },
+        },
       },
-      updated_at: {
+      password: {
+        type: DataTypes.STRING,
         allowNull: false,
-        type: Sequelize.DATE,
+        validate: {
+          notNull: { msg: 'Opps!. This is a required field.' },
+          notEmpty: { msg: 'Opps!. This is a required field.' },
+          min: 5,
+        },
       },
+      email_verified_at: DataTypes.DATE,
+      email_verification_token: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      email_verification_token_expires_at: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+      password_reset_token: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      password_reset_token_expires_at: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+      created_at: { type: DataTypes.DATE },
+      updated_at: { type: DataTypes.DATE },
     });
   },
-  down: async (queryInterface, Sequelize) => {
+  down: async (queryInterface) => {
     await queryInterface.dropTable('users');
   },
 };
