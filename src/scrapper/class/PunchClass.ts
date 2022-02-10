@@ -9,13 +9,17 @@ import { PrismaClient } from '@prisma/client';
 const { article, category } = new PrismaClient();
 
 export interface Article {
-  articleTitle: string;
-  articleUrl: string | undefined;
+  articleTitle?: string;
+  articleUrl?: string;
   nanoid?: string;
-  articleImage: string | undefined;
+  articleImage?: string;
   id?: string;
 }
 
+interface Category<T> {
+  id?: T;
+  name?: string | null;
+}
 export default class PunchClass {
   constructor(
     public url: string,
@@ -71,50 +75,29 @@ export default class PunchClass {
 
   public async exportResults(results: Article[]) {
     try {
-      // const getCategory = await category.findFirst({
-      //   where: { name: this.category },
-      // });
-
-      results.map(async (index, element: any) => {
-        const t = await article.create({
-          data: {
-            name: element.articleName,
-            url: element.articleUrl,
-            nanoid: nanoid(),
-            image: element.articleImage,
-            category_id: 1,
-            source: this.source,
-            // // @ts-ignore
-            // created_at: Date.now(),
-            // // @ts-ignore
-            // updated_at: Date.now(),
-            // // @ts-ignore
-            // expires_at: Date.now() + 7 * 24 * 60 * 60 * 1000,
-          },
-        });
-        log.info(`Completly saved to database`);
-        return t;
+      const getCategory: any = await category.findMany({
+        where: { name: this.category },
+        select: {
+          id: true,
+          name: true,
+        },
       });
 
-      // for (const i of results) {
-      //   await article.create({
-      //     data: {
-      //       name: i.articleTitle,
-      //       url: i.articleUrl,
-      //       nanoid: nanoid(),
-      //       image: i.articleImage,
-      //       category_id: 1,
-      //       source: this.source,
-      //       // @ts-ignore
-      //       created_at: Date.now(),
-      //       // @ts-ignore
-      //       updated_at: Date.now(),
-      //       // @ts-ignore
-      //       expires_at: Date.now() + 7 * 24 * 60 * 60 * 1000,
-      //     },
-      //   });
-      //   log.info(`Completly saved to database`);
-      // }
+      // log.info(getCategory[0]);
+      const data: any = [];
+
+      for (const i of results) {
+        data.push({
+          name: i.articleTitle,
+          url: i.articleUrl,
+          nanoid: nanoid(),
+          image: i.articleImage,
+          category_id: getCategory[0].id,
+          source: this.source,
+        });
+      }
+      log.info(data);
+      await article.createMany({ data });
     } catch (err: any) {
       log.error(err);
     }

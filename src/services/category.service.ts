@@ -14,7 +14,6 @@ export default class CategoryService {
           nanoid: nanoid(),
         },
       });
-      log.info(category);
       return category;
     } catch (error: any) {
       return new AppError(error.message, error.status);

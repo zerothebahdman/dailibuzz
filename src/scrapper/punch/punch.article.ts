@@ -11,4 +11,4 @@ punchArticle('https://punchng.com/topics/news/', 'News', 'punchng');
 //   'punchng'
 // );
 // punchArticle('https://punchng.com/topics/business/', 'Business', 'punchng');
-// punchArticle('https://punchng.com/topics/sports/', 'Sports', 'punchng');
+punchArticle('https://punchng.com/topics/sports/', 'Sports', 'punchng');
