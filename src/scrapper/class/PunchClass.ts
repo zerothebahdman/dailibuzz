@@ -96,7 +96,7 @@ export default class PunchClass {
           source: this.source,
         });
       }
-      log.info(data);
+
       await article.createMany({ data });
     } catch (err: any) {
       log.error(err);

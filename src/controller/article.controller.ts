@@ -11,9 +11,8 @@ export const getArticle = async (
   next: NextFunction
 ) => {
   try {
-    const data = ArticleService.findArticle();
-    log.info(data);
-    return res.status(200).json({ status: 'success', data });
+    const data = await ArticleService.findArticle();
+    return res.status(200).json({ status: 'success', article: data }); //, dataResult: data
   } catch (err: any) {
     return next(new AppError(err.message, err.status));
   }

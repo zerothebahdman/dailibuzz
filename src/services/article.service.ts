@@ -2,38 +2,40 @@ import { Request } from 'express';
 import Redis from 'ioredis';
 import log from '../utils/logger';
 import { PrismaClient } from '@prisma/client';
+import AppError from '../class/AppError';
 
 const { article } = new PrismaClient();
 const redis = new Redis();
 
 export default class ArticleService {
   static async findArticle() {
-    const data = await article.findMany({
-      select: {
-        name: true,
-        source: true,
-        image: true,
-        nanoid: true,
-        url: true,
-      },
-    });
-    // const article = await Article.findAll({
-    //   order: [['createdAt', 'DESC']],
-    //   include: {
-    //     model: Category,
-    //     as: 'category',
-    //     attributes: ['nanoid', 'name'],
-    //   },
-    //   attributes: ['name', 'nanoid', 'image', 'url', 'source'],
-    // });
+    try {
+      const data = await article.findMany({
+        select: {
+          name: true,
+          source: true,
+          image: true,
+          nanoid: true,
+          url: true,
+          // Category: { select: { name: true } },
+        },
+      });
 
-    redis.set(
-      'articles',
-      JSON.stringify(article),
-      'ex',
-      60
-    ); /** Expires after 6 hours*/
-    return article;
+      // const data = await article.count({ select: { _all: true } });
+
+      redis.set(
+        'articles',
+        JSON.stringify(article),
+        'ex',
+        60
+      ); /** Expires after 6 hours*/
+
+      log.info(data.length);
+      return data;
+    } catch (err: any) {
+      log.error(err.message);
+      return new AppError(err.message, err.status);
+    }
   }
 
   static async sortArticle(sort: Request) {
