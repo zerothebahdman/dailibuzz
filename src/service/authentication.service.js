@@ -7,6 +7,12 @@ require('dotenv').config();
 
 exports.hashPassword = (password) => bcrypt.hash(password, 15);
 
+exports.verifyPassword = async (password, storedPassword) => {
+  const hash = await bcrypt.compare(password, storedPassword);
+  log.info(hash);
+  return hash;
+};
+
 let PRIVATE_KEY;
 (async () => {
   try {
