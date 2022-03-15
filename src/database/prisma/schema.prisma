@@ -11,8 +11,6 @@ datasource db {
 }
 
 model User {
-  // id                Int       @id @default(autoincrement())
-  // id                String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   id                String    @id @unique @default(uuid())
   name              String    @db.VarChar(255)
   email             String    @unique @db.VarChar(255)
@@ -35,4 +33,32 @@ model User {
 enum Gender {
   male
   female
+}
+
+model Article {
+  id          String    @id @unique @default(uuid())
+  nanoid      String?   @db.VarChar(255)
+  name        String    @db.VarChar(255)
+  image       String?   @db.VarChar(255)
+  url         String?   @db.VarChar(255)
+  source      String?   @db.VarChar(255)
+  category_id String?
+  created_at  DateTime  @default(now())
+  updated_at  DateTime? @updatedAt
+  expires_at  DateTime?
+  Category    Category? @relation(fields: [category_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([category_id], map: "category_id")
+  @@map("article")
+}
+
+model Category {
+  id         String    @id @unique @default(uuid())
+  nanoid     String?   @db.VarChar(255)
+  name       String?   @db.VarChar(255)
+  created_at DateTime  @default(now())
+  updated_at DateTime? @updatedAt
+  article    Article[]
+
+  @@map("category")
 }
