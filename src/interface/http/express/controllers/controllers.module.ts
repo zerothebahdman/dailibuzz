@@ -3,4 +3,9 @@
  */
 
 import UserController from './users.controller';
-export const userController = new UserController();
+import CategoryController from './category.controller';
+// import ArticleController from './article.controller';
+
+const userController = new UserController();
+const categoryController = new CategoryController();
+export { userController, categoryController };
