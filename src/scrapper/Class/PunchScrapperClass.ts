@@ -2,11 +2,7 @@ import cheerio from 'cheerio';
 import { PrismaClient } from '@prisma/client';
 import ArticleBaseClass from './ArticleBaseClass';
 import log from '../../logging/logger';
-export interface Article {
-  articleTitle?: string;
-  articleUrl?: string;
-  articleImage?: string;
-}
+import { ScrappedArticle } from '../../index';
 
 export default class PunchScrapperClass extends ArticleBaseClass {
   constructor(
@@ -17,7 +13,7 @@ export default class PunchScrapperClass extends ArticleBaseClass {
     super();
   }
 
-  async getArticle(): Promise<Article[]> {
+  async getArticle(): Promise<ScrappedArticle[]> {
     try {
       const html = await this.fetchPage(this.url, 6);
       const $ = cheerio.load(html);
