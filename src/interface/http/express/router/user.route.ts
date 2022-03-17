@@ -1,11 +1,11 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { userController } from '../../controllers/controllers.module';
+import { userController } from '../controllers/controllers.module';
 import {
   createUser,
   loginUser,
   verifyUserEmail,
-} from '../../../../../authentication/authentication.module';
-import { isAuthenticated } from '../../middlewares/auth.middleware';
+} from '../../../../authentication/authentication.module';
+import { isAuthenticated } from '../middlewares/auth.middleware';
 
 const route = Router();
 
