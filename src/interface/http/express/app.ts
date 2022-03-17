@@ -1,5 +1,5 @@
 import '../../../scrapper/article/PunchArticleScrapper';
-// import '../../../scrapper/article/TechCrunchArticleScrapper';
+import '../../../scrapper/article/TechCrunchArticleScrapper';
 import express, { Application, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import config from 'config';
