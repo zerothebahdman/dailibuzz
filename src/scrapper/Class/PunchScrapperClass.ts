@@ -2,24 +2,10 @@ import cheerio from 'cheerio';
 import { PrismaClient } from '@prisma/client';
 import ArticleBaseClass from './ArticleBaseClass';
 import log from '../../logging/logger';
-import { nanoid } from 'nanoid';
-
-const { article, category } = new PrismaClient();
-
 export interface Article {
   articleTitle?: string;
   articleUrl?: string;
   articleImage?: string;
-}
-
-interface CreateArticle {
-  id?: string;
-  nanoid?: string;
-  category_id?: number;
-  source?: string;
-  image?: string;
-  name?: string;
-  url?: string;
 }
 
 export default class PunchScrapperClass extends ArticleBaseClass {
@@ -31,11 +17,10 @@ export default class PunchScrapperClass extends ArticleBaseClass {
     super();
   }
 
-  async getArticle() {
+  async getArticle(): Promise<Article[]> {
     try {
       const html = await this.fetchPage(this.url, 6);
       const $ = cheerio.load(html);
-
       const articles = $('.entries-grid > .grid-item > article')
         .map(async (index, element: any) => {
           const articleImage = $(element)

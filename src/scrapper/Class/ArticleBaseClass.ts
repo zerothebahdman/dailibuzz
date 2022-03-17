@@ -2,6 +2,7 @@ import axios from 'axios';
 import log from '../../logging/logger';
 import { nanoid } from 'nanoid';
 import { PrismaClient } from '@prisma/client';
+import { Category } from '../../index';
 
 const { article, category } = new PrismaClient();
 export interface Article {
@@ -29,28 +30,28 @@ export default class ArticleBaseClass {
     source: string
   ): Promise<void> {
     try {
-      const _getCategory: any = await category.findFirst({
+      const _getCategory: Category = await category.findFirst({
         where: { name: articleCategory },
         select: {
           id: true,
           name: true,
         },
       });
-      log.info(_getCategory);
-      // const data: any = [];
 
-      // for (const i of results) {
-      //   data.push({
-      //     name: i.articleTitle,
-      //     url: i.articleUrl,
-      //     nanoid: nanoid(),
-      //     image: i.articleImage,
-      //     category_id: _getCategory[0].id,
-      //     source,
-      //   });
-      // }
+      const data: any = [];
 
-      // await article.createMany({ data });
+      for (const i of results) {
+        data.push({
+          name: i.articleTitle,
+          url: i.articleUrl,
+          nanoid: nanoid(),
+          image: i.articleImage,
+          category_id: _getCategory.id,
+          source,
+        });
+      }
+
+      await article.createMany({ data });
     } catch (err: any) {
       log.error(err);
     }
