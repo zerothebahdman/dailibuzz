@@ -51,7 +51,7 @@ export default class ArticleBaseClass {
         });
       }
 
-      await article.createMany({ data });
+      await article.createMany({ data, skipDuplicates: true });
     } catch (err: any) {
       log.error(err);
     }
