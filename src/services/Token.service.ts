@@ -40,7 +40,7 @@ export default class TokenService {
   static async _generateJwtToken(uuid: string): Promise<string> {
     const token = jwt.sign({ uuid }, PRIVATE_KEY, {
       algorithm: 'RS512',
-      expiresIn: config.get<string>('tokenExpiration'),
+      expiresIn: process.env.JWT_TOKEN_EXPIRATION_TIME,
     });
 
     return token;

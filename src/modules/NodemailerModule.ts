@@ -15,13 +15,13 @@ export default class NodemailerModule {
 
   constructor() {
     this.transporter = nodemailer.createTransport({
-      host: config.get<string>('MAIL_HOST'),
-      port: config.get<number>('MAIL_PORT'),
+      host: process.env.MAIL_HOST,
+      port: Number(process.env.MAIL_PORT),
       logger: true,
       secure: false,
       auth: {
-        user: config.get<string>('MAIL_USER'),
-        pass: config.get<string>('MAIL_PASSWORD'),
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASSWORD,
       },
       ignoreTLS: true,
     });

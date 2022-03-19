@@ -45,17 +45,17 @@ export default class EmailService {
    * data - refers to what you want to send to the user
    */
   async _sendEmail(type: string, users_email: string, data: Data) {
-    // if (config.get<string>('env') === 'development')
+    // if (process.env.NODE_ENV === 'development')
     //   return `Email sent to ${to}`;
     const [subject, templatePath] = emailType[type] || [];
     if (!subject || !templatePath) return;
     const html = await email.render(`templates/${templatePath}`, data);
     try {
       await _nodeMailerModule.send({
-        from: config.get<string>('from'),
+        from: process.env.MAIL_FROM,
         to: users_email,
         html,
-        name: config.get<string>('name'),
+        name: process.env.APP_NAME,
         subject,
       });
       log.info(`Email sent to ${users_email}`);
