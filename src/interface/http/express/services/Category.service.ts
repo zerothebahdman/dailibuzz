@@ -8,7 +8,7 @@ import { Category } from '../../../../index';
 const { category } = new PrismaClient();
 
 export default class Categoryservice {
-  static async createCategory(reqObj: Category): Promise<Category> {
+  async createCategory(reqObj: Category): Promise<Category> {
     try {
       const _validateResource: Category = await CategoryValidator.validateAsync(
         reqObj

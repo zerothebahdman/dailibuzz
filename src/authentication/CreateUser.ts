@@ -11,6 +11,7 @@ const { user } = new PrismaClient();
 const emailService = new EmailService();
 
 export default class CreateUser {
+  constructor(private readonly userService: UserService) {}
   async createUser(req: Request, res: Response, next: NextFunction) {
     try {
       const _userExists = await user.findUnique({
@@ -24,7 +25,7 @@ export default class CreateUser {
 
       /** if user does not exist create the user using the user service */
       const { _user, jwtToken, emailVerificationToken }: any =
-        await UserService.createUser(req.body, next);
+        await this.userService.createUser(req.body, next);
 
       /** Send email verfication to user */
       await emailService._sendUserEmailVerificationEmail(

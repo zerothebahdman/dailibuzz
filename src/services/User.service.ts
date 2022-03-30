@@ -30,7 +30,7 @@ interface UserRequest {
 }
 
 export default class UserService {
-  static async getAllUsers(): Promise<User[]> {
+  async getAllUsers(): Promise<User[]> {
     const data = await user.findMany({
       select: {
         id: true,
@@ -45,7 +45,7 @@ export default class UserService {
     return data;
   }
 
-  static async createUser(request: UserRequest, next: NextFunction) {
+  async createUser(request: UserRequest, next: NextFunction) {
     try {
       /** Use JOI to validate input comming from the request.body property */
       const _validateResource: UserRequest =
@@ -87,11 +87,7 @@ export default class UserService {
     }
   }
 
-  static async loginUser(
-    request: UserRequest,
-    res: Response,
-    next: NextFunction
-  ) {
+  async loginUser(request: UserRequest, res: Response, next: NextFunction) {
     try {
       const _validateResource: UserRequest =
         await LoginUserValidationSchema.validateAsync(request, {
