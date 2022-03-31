@@ -24,8 +24,8 @@ export default class ArticleService {
       });
 
       redis.set('article', JSON.stringify(_article), 'ex', 60);
-
-      return _article;
+      const count = _article.length;
+      return { count, _article };
     } catch (err: any) {
       return next(new AppException(err.message, err.status));
     }
