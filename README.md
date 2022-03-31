@@ -4,8 +4,6 @@ DailiBuzz is a one stop web application that pragamatically collects and organiz
 
 ## How to use
 
----
-
 ### Requirements
 
 - LTS of Node Installed on your machine.
@@ -18,9 +16,9 @@ DailiBuzz is a one stop web application that pragamatically collects and organiz
 
 ## Begin
 
----
-
 ### Project Installation
+
+---
 
 - clone the project
 - `cd` into the repo
@@ -28,6 +26,8 @@ DailiBuzz is a one stop web application that pragamatically collects and organiz
 - Run `npm install` to install all existing dependencies
 
 ### Project Setup
+
+---
 
 - Run `npm install @prisma/client` to install prisma client
   - Whenever you make changes to your Prisma schema in the future, you manually need to invoke prisma generate using `npx prisma generate` in order to accommodate the changes in your Prisma Client API.
