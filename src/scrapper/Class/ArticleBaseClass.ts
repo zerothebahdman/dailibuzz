@@ -11,6 +11,17 @@ export interface Article {
   articleImage?: string;
 }
 
+interface ExportArticle {
+  id?: string;
+  nanoid: string;
+  category_id?: string;
+  source: string;
+  image: string;
+  name: string;
+  url: string;
+  expires_at: Date;
+}
+
 export default class ArticleBaseClass {
   async fetchPage(url: string, n: number) {
     try {
@@ -37,21 +48,42 @@ export default class ArticleBaseClass {
           name: true,
         },
       });
-
-      const data: any = [];
-
-      for (const i of results) {
-        data.push({
-          name: i.articleTitle,
-          url: i.articleUrl,
-          nanoid: nanoid(),
-          image: i.articleImage,
-          category_id: _getCategory.id,
-          source,
+      for (let i = 0; i < results.length; i++) {
+        const articleData = [
+          results[i].articleTitle,
+          results[i].articleUrl,
+          results[i].articleImage,
+        ];
+        const articleExists = await article.findMany({
+          where: {
+            name: {
+              equals: articleData[0],
+            },
+            url: {
+              equals: articleData[1],
+            },
+            image: {
+              equals: articleData[2],
+            },
+          },
+          select: {
+            id: true,
+            nanoid: true,
+          },
         });
+        if (articleExists.length === 0) {
+          const _article: ExportArticle = {
+            nanoid: nanoid(),
+            name: articleData[0],
+            image: articleData[2],
+            url: articleData[1],
+            source: source,
+            category_id: _getCategory.id,
+            expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+          };
+          await article.create({ data: _article });
+        }
       }
-
-      await article.createMany({ data, skipDuplicates: true });
     } catch (err: any) {
       log.error(err);
     }
