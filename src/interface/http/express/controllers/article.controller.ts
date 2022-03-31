@@ -29,7 +29,13 @@ export default class ArticleCategory {
       if (!_article) {
         return next(new AppException(`Opps! no article found`, 404));
       } else {
-        return res.status(200).json({ status: 'success', article: _article });
+        return res
+          .status(200)
+          .json({
+            status: 'success',
+            count: _article.count,
+            article: _article._article,
+          });
       }
     } catch (err: any) {
       return next(new AppException(err.message, err.status));

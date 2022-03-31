@@ -45,9 +45,20 @@ export default class ArticleService {
 
         const _article = await prisma.article.findMany({
           where: {
-            source: queryObj.source,
-            category_id: articleCategory.id,
+            AND: [
+              {
+                category_id: {
+                  equals: articleCategory.id,
+                },
+              },
+              {
+                source: {
+                  equals: queryObj.source,
+                },
+              },
+            ],
           },
+          orderBy: [{ created_at: 'desc' }],
           select: {
             nanoid: true,
             name: true,
@@ -66,6 +77,8 @@ export default class ArticleService {
             )
           );
         }
+        const count = _article.length;
+        return { count, _article };
       }
 
       const _article = await prisma.article.findMany({
@@ -79,7 +92,16 @@ export default class ArticleService {
           Category: { select: { name: true, nanoid: true } },
         },
       });
-      return _article;
+      if (_article.length === 0) {
+        return next(
+          new AppException(
+            'Opps!, no article found from provided filter params',
+            404
+          )
+        );
+      }
+      const count = _article.length;
+      return { count, _article };
     } catch (err: any) {
       return next(new AppException(err.message, err.status));
     }
