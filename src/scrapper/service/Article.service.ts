@@ -13,7 +13,7 @@ export default class ArticleService {
         log.info(results);
       })
       .catch((err) => {
-        log.info(`Error while fetching articles with error :::: ${err}`);
+        log.error(`Error while fetching articles with error :::: ${err}`);
       });
   }
 
@@ -27,7 +27,7 @@ export default class ArticleService {
         log.info(results);
       })
       .catch((err) => {
-        log.info(`Error while fetching articles with error :::: ${err}`);
+        log.error(`Error while fetching articles with error :::: ${err}`);
       });
   }
 }

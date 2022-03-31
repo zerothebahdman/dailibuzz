@@ -29,7 +29,7 @@ export default class ArticleBaseClass {
       return result.data;
     } catch (err: any) {
       if (n === 0) throw new Error(err.message);
-      log.info(
+      log.error(
         'fetchPage(): Waiting For 3 seconds before retrying the request.'
       );
     }
