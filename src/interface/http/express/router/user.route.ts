@@ -1,5 +1,5 @@
-import { Router, Request, Response, NextFunction } from 'express';
-import { userController } from '../controllers/controllers.module';
+import { Router } from 'express';
+import { userAccess, userController } from '../controllers/controllers.module';
 import {
   createUser,
   loginUser,
@@ -17,6 +17,10 @@ route
   .post((req, res, next) => {
     createUser.createUser(req, res, next);
   });
+
+route.get('/generate-access-token', isAuthenticated, (req, res, next) => {
+  userAccess._userAccess(req, res, next);
+});
 
 route.get('/verify-email/:token', (req, res, next) => {
   verifyUserEmail.execute(req, res, next);
