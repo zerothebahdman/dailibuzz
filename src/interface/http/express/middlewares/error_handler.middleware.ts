@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import type { ErrorRequestHandler } from 'express';
+import config from 'config';
 
 export interface Error {
   statusCode: number;
@@ -45,9 +46,9 @@ const ErrorHandler: ErrorRequestHandler = (
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
 
-  if (process.env.NODE_ENV === 'development') {
+  if (config.get<string>('env') === 'development') {
     setDevError(err, res);
-  } else if (process.env.NODE_ENV === 'production') {
+  } else if (config.get<string>('env') === 'production') {
     setProductionError(err, res);
   }
   next();

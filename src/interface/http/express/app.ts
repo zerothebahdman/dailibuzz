@@ -13,11 +13,11 @@ import articleRouter from './router/article.route';
 
 const app: Application = express();
 
-if (process.env.NODE_ENV === 'production') {
+if (config.get<string>('env') === 'production') {
   app.use(enforce.HTTPS({ trustProtoHeader: true }));
 }
 
-if (process.env.NODE_ENV === 'development') {
+if (config.get<string>('env') === 'development') {
   app.use(morgan('dev'));
 }
 
@@ -43,6 +43,6 @@ export default app;
 
 //   constructor() {
 //     this.app = express();
-//     this.port = process.env.PORT;
+//     this.port = config.get<number>('port');
 //   };
 // }
