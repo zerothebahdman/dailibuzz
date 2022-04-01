@@ -11,21 +11,22 @@ datasource db {
 }
 
 model User {
-  id                String    @id @unique @default(uuid())
-  name              String    @db.VarChar(255)
-  email             String    @unique @db.VarChar(255)
-  password          String    @db.VarChar(255)
-  phone_number      String    @db.VarChar(255)
-  gender            Gender?   @default(male)
-  address           String?   @db.VarChar(255)
-  isEmailVerified   Boolean?  @default(false)
+  id                String          @id @unique @default(uuid())
+  name              String          @db.VarChar(255)
+  email             String          @unique @db.VarChar(255)
+  password          String          @db.VarChar(255)
+  phone_number      String          @db.VarChar(255)
+  gender            Gender?         @default(male)
+  address           String?         @db.VarChar(255)
+  isEmailVerified   Boolean?        @default(false)
   email_verified_at DateTime?
-  token             String?   @unique @db.VarChar(255)
+  token             String?         @unique @db.VarChar(255)
   token_expires_at  DateTime?
   passwordLastReset DateTime?
-  created_at        DateTime  @default(now())
-  updated_at        DateTime? @updatedAt
+  created_at        DateTime        @default(now())
+  updated_at        DateTime?       @updatedAt
   deleted_at        DateTime?
+  authorization     Authorization[]
 
   @@map("user")
 }
@@ -50,6 +51,19 @@ model Article {
 
   @@index([category_id], map: "category_id")
   @@map("article")
+}
+
+model Authorization {
+  id          String    @id @unique @default(uuid())
+  user_id     String    @db.VarChar(255)
+  accessId    String    @db.VarChar(255)
+  accessToken String    @db.VarChar(255)
+  created_at  DateTime  @default(now())
+  updated_at  DateTime? @updatedAt
+
+  User User? @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("authorization")
 }
 
 model Category {
