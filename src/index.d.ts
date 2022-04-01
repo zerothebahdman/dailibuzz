@@ -1,3 +1,12 @@
+import { Request } from 'express';
+
+export type RequestType = {
+  [prop: string]: any;
+  headers: {
+    access_token?: string;
+    access_id?: string;
+  };
+} & Request;
 export interface Category {
   id?: string;
   nanoid?: string;
@@ -8,6 +17,11 @@ export interface ScrappedArticle {
   articleTitle?: string;
   articleUrl?: string;
   articleImage?: string;
+}
+
+export interface ReqObject {
+  source: string;
+  category: string;
 }
 
 export interface Article {
