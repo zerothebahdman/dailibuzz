@@ -1,17 +1,10 @@
 import Status from 'http-status';
-import { Request, Response, NextFunction } from 'express';
+import { Response, NextFunction } from 'express';
 import AppException from '../../../../exceptions/AppException';
-import { readFile } from 'fs/promises';
-import { join } from 'path';
-import log from '../../../../logging/logger';
-import jwt from 'jsonwebtoken';
 import { PrismaClient } from '@prisma/client';
 import TokenService from '../../../../services/Token.service';
+import { RequestType } from '../../../../index';
 const { user } = new PrismaClient();
-
-export type RequestType = {
-  [prop: string]: any;
-} & Request;
 
 export const isAuthenticated = async (
   req: RequestType,
