@@ -40,7 +40,7 @@ export default class TokenService {
   static async _generateJwtToken(uuid: string): Promise<string> {
     const token = jwt.sign({ uuid }, PRIVATE_KEY, {
       algorithm: 'RS512',
-      expiresIn: process.env.JWT_TOKEN_EXPIRATION_TIME,
+      expiresIn: config.get<number>('tokenExpiration'),
     });
 
     return token;
@@ -86,5 +86,19 @@ export default class TokenService {
       .digest('base64');
 
     return { emailVerificationToken, hashedEmailVerificationToken };
+  }
+
+  async generateAccessToken() {
+    const accessToken = randomBytes(25).toString('base64').replace('/', '-');
+    const hashedAccessToken = createHash('sha512')
+      .update(accessToken)
+      .digest('base64');
+    return { accessToken, hashedAccessToken };
+  }
+
+  async generateAccessId() {
+    const accessId = randomBytes(30).toString('hex');
+    const hashedAccessId = createHash('sha512').update(accessId).digest('hex');
+    return { accessId, hashedAccessId };
   }
 }
