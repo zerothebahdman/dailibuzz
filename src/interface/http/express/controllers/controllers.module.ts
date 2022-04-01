@@ -8,9 +8,12 @@ import ArticleController from './article.controller';
 import UserService from '../../../../services/User.service';
 import Categoryservice from '../services/Category.service';
 import ArticleService from '../services/Article.service';
+import UserAccessController from './integration/access-token.controller';
+import TokenService from '../../../../services/Token.service';
 
 const userController = new UserController(new UserService());
 const categoryController = new CategoryController(new Categoryservice());
 const articleController = new ArticleController(new ArticleService());
+const userAccess = new UserAccessController(new TokenService());
 
-export { userController, categoryController, articleController };
+export { userController, categoryController, articleController, userAccess };
