@@ -2,14 +2,14 @@
   "name": "nodejs-boilerplate",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "build/server.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
     "dev": "nodemon server.ts",
     "build": "tsc",
-    "start": "nodemon build/server.js"
+    "start": "nodemon server.ts"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +19,7 @@
     "axios": "^0.26.1",
     "bcrypt": "^5.0.1",
     "cheerio": "^1.0.0-rc.10",
+    "concurrently": "^7.0.0",
     "config": "^3.3.7",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
