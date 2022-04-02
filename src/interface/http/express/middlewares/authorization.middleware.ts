@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import AppException from '../../../../exceptions/AppException';
 import log from '../../../../logging/logger';
 import { PrismaClient } from '@prisma/client';
-import { RequestType } from '../../../../index';
+import { RequestType } from '../../../../helpers/index';
 import { createHash } from 'crypto';
 
 const { authorization } = new PrismaClient();

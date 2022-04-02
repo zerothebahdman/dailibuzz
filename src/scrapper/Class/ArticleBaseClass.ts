@@ -2,7 +2,7 @@ import axios from 'axios';
 import log from '../../logging/logger';
 import { nanoid } from 'nanoid';
 import { PrismaClient } from '@prisma/client';
-import { Category } from '../../index';
+import { Category } from '../../helpers/index';
 
 const { article, category } = new PrismaClient();
 export interface Article {

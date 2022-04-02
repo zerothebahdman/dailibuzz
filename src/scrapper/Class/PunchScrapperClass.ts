@@ -2,7 +2,7 @@ import cheerio from 'cheerio';
 import { PrismaClient } from '@prisma/client';
 import ArticleBaseClass from './ArticleBaseClass';
 import log from '../../logging/logger';
-import { ScrappedArticle } from '../../index';
+import { ScrappedArticle } from '../../helpers/index';
 
 export default class PunchScrapperClass extends ArticleBaseClass {
   constructor(

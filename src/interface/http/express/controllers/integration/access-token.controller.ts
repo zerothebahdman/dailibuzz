@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import status from 'http-status';
 import TokenService from '../../../../../services/Token.service';
-import { RequestType } from '../../../../../index';
+import { RequestType } from '../../../../../helpers/index';
 import { PrismaClient } from '@prisma/client';
 import AppException from '../../../../../exceptions/AppException';
 import log from '../../../../../logging/logger';
@@ -14,13 +14,13 @@ type Authorization = {
 };
 
 export default class UserAccessController {
-  constructor(private readonly accessTokenService: TokenService) {}
+  constructor(private readonly tokenService: TokenService) {}
 
   async _userAccess(req: RequestType, res: Response, next: NextFunction) {
     try {
       const { id } = req.user;
-      const _accessToken = await this.accessTokenService.generateAccessToken();
-      const _api_key = await this.accessTokenService.generateApiKey();
+      const _accessToken = await this.tokenService.generateAccessToken();
+      const _api_key = await this.tokenService.generateApiKey();
       const _authorization: Authorization = await authorization.findFirst({
         where: {
           user_id: id,

@@ -1,7 +1,7 @@
 import log from '../../logging/logger';
 import ArticleBaseClass from './ArticleBaseClass';
 import cheerio from 'cheerio';
-import { ScrappedArticle, Element } from '../../index';
+import { ScrappedArticle, Element } from '../../helpers/index';
 
 export default class TechCrunchArticleScrapper extends ArticleBaseClass {
   constructor(

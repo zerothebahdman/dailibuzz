@@ -3,7 +3,7 @@ import { NextFunction, Request } from 'express';
 import AppException from '../../../../exceptions/AppException';
 import Redis from 'ioredis';
 import log from '../../../../logging/logger';
-import { ReqObject } from '../../../../index';
+import { ReqObject } from '../../../../helpers/index';
 
 const redis = new Redis();
 const prisma = new PrismaClient();

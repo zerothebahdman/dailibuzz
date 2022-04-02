@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import AppException from '../../../../exceptions/AppException';
 import CategoryValidator from '../../../../validators/CategoryValidator';
 import log from '../../../../logging/logger';
-import { Category } from '../../../../index';
+import { Category } from '../../../../helpers/index';
 
 const { category } = new PrismaClient();
 

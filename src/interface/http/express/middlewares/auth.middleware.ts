@@ -3,7 +3,7 @@ import { Response, NextFunction } from 'express';
 import AppException from '../../../../exceptions/AppException';
 import { PrismaClient } from '@prisma/client';
 import TokenService from '../../../../services/Token.service';
-import { RequestType } from '../../../../index';
+import { RequestType } from '../../../../helpers/index';
 const { user } = new PrismaClient();
 
 export const isAuthenticated = async (
