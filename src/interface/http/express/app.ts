@@ -10,6 +10,9 @@ import AppException from '../../../exceptions/AppException';
 import morgan from 'morgan';
 import categoryRouter from './router/category.router';
 import articleRouter from './router/article.route';
+import rateLimit from 'express-rate-limit';
+import hpp from 'hpp';
+import helmet from 'helmet';
 
 const app: Application = express();
 
@@ -20,10 +23,22 @@ if (config.get<string>('env') === 'production') {
 if (config.get<string>('env') === 'development') {
   app.use(morgan('dev'));
 }
-
+app.use(hpp());
 app.use(express.json());
 app.use(cors());
+app.use(helmet.xssFilter());
+app.use(helmet());
 app.disable('x-powered-by');
+
+// Rate Limit middleware
+const limiter = rateLimit({
+  // Number of request
+  max: 100,
+  // Number of seconds between requests
+  windowMs: 60 * 60 * 1000, // 1 hour
+  message: `Too many request from this IP, Try again in a 1 hour`,
+});
+app.use('/api', limiter);
 
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/article/', articleRouter);
