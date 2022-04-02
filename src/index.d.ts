@@ -4,7 +4,7 @@ export type RequestType = {
   [prop: string]: any;
   headers: {
     access_token?: string;
-    access_id?: string;
+    api_key?: string;
   };
 } & Request;
 export interface Category {

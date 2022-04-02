@@ -60,7 +60,7 @@ export default class TokenService {
       if (err.name === 'TokenExpiredError')
         return next(
           new AppException(
-            'Opps!, your token has expired.',
+            'Opps!, your authentication token has expired.',
             httpStatus.FORBIDDEN
           )
         );
@@ -96,9 +96,9 @@ export default class TokenService {
     return { accessToken, hashedAccessToken };
   }
 
-  async generateAccessId() {
-    const accessId = randomBytes(30).toString('hex');
-    const hashedAccessId = createHash('sha512').update(accessId).digest('hex');
-    return { accessId, hashedAccessId };
+  async generateApiKey() {
+    const apiKey = randomBytes(15).toString('hex');
+    const hashedApiKey = createHash('sha512').update(apiKey).digest('hex');
+    return { apiKey, hashedApiKey };
   }
 }

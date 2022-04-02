@@ -7,11 +7,6 @@ import { createHash } from 'crypto';
 
 const { authorization } = new PrismaClient();
 
-type RequestHeaders = {
-  access_token: string;
-  access_id: string;
-} & Request;
-
 export const isAuthorized = async (
   req: RequestType,
   res: Response,
@@ -26,15 +21,15 @@ export const isAuthorized = async (
         )
       );
 
-    const { access_token, access_id } = req.headers;
-    if (!access_token || !access_id) return _notAuthorized();
+    const { access_token, api_key } = req.headers;
+    if (!access_token || !api_key) return _notAuthorized();
 
     const _hashedAccessToken: string = createHash('sha512')
       .update(access_token)
       .digest('base64');
 
     const _hashedAccessId: string = createHash('sha512')
-      .update(access_id)
+      .update(api_key)
       .digest('hex');
 
     log.info({ _hashedAccessId, _hashedAccessToken });

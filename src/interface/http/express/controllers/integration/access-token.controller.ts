@@ -20,7 +20,7 @@ export default class UserAccessController {
     try {
       const { id } = req.user;
       const _accessToken = await this.accessTokenService.generateAccessToken();
-      const _accessId = await this.accessTokenService.generateAccessId();
+      const _api_key = await this.accessTokenService.generateApiKey();
       const _authorization: Authorization = await authorization.findFirst({
         where: {
           user_id: id,
@@ -35,7 +35,7 @@ export default class UserAccessController {
       await authorization.create({
         data: {
           accessToken: _accessToken.hashedAccessToken,
-          accessId: _accessId.hashedAccessId,
+          accessId: _api_key.hashedApiKey,
           user_id: id,
         },
         select: { accessId: true, accessToken: true },
@@ -51,9 +51,9 @@ export default class UserAccessController {
 
       return res.status(200).json({
         status: 'success',
-        message: 'user access token generated successfully',
+        message: 'User API KEY generated successfully',
+        apiKey: _api_key.apiKey,
         accessToken: _accessToken.accessToken,
-        accessId: _accessId.accessId,
       });
     } catch (err: any) {
       log.info(err);

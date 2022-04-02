@@ -18,7 +18,7 @@ route
     createUser.createUser(req, res, next);
   });
 
-route.get('/generate-access-token', isAuthenticated, (req, res, next) => {
+route.get('/generate-api-key', isAuthenticated, (req, res, next) => {
   userAccess._userAccess(req, res, next);
 });
 
